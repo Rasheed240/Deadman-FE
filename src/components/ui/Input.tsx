@@ -1,6 +1,3 @@
-/**
- * Input Component
- */
 import { InputHTMLAttributes, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -19,7 +16,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-surface-700 dark:text-surface-300 mb-1.5"
           >
             {label}
           </label>
@@ -29,20 +26,25 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           ref={ref}
           className={cn(
-            'w-full px-3 py-2 border rounded-lg shadow-sm',
-            'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent',
-            'disabled:bg-gray-100 disabled:cursor-not-allowed',
+            'w-full px-4 py-2.5 rounded-xl text-sm transition-all duration-200',
+            'bg-white dark:bg-surface-800',
+            'border border-surface-300 dark:border-surface-600',
+            'text-surface-900 dark:text-surface-100',
+            'placeholder:text-surface-400 dark:placeholder:text-surface-500',
+            'focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:border-primary-500',
+            'dark:focus:ring-primary-500/30 dark:focus:border-primary-500',
+            'disabled:bg-surface-100 disabled:cursor-not-allowed dark:disabled:bg-surface-900',
             error
-              ? 'border-danger-500 focus:ring-danger-500'
-              : 'border-gray-300',
+              ? 'border-danger-500 focus:ring-danger-500/40 focus:border-danger-500'
+              : '',
             className
           )}
           {...props}
         />
         {hint && !error && (
-          <p className="mt-1 text-sm text-gray-500">{hint}</p>
+          <p className="mt-1.5 text-xs text-surface-500 dark:text-surface-400">{hint}</p>
         )}
-        {error && <p className="mt-1 text-sm text-danger-600">{error}</p>}
+        {error && <p className="mt-1.5 text-xs text-danger-500">{error}</p>}
       </div>
     );
   }
