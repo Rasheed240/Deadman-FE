@@ -38,7 +38,7 @@ export const messagesApi = {
     subject: string;
     body: string;
   }> => {
-    return api.post(`/messages/messages/${id}/decrypt/`, { password });
+    return api.post(`/messages/messages/${id}/decrypt/`, { user_password: password });
   },
 
   // Activate message (after payment)

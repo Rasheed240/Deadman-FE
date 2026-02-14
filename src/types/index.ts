@@ -36,7 +36,7 @@ export interface RegisterRequest {
   username: string;
   password: string;
   password_confirm: string;
-  account_type: AccountType | string; // Allow for extensibility
+  account_type: AccountType;
   terms_accepted: boolean;
 }
 
@@ -45,7 +45,6 @@ export interface AuthResponse {
   refresh: string;
   user: User;
   requires_2fa?: boolean;
-  is_new_user?: boolean;
 }
 
 // ============================================================================

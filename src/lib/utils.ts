@@ -25,7 +25,9 @@ export function formatCurrency(amount: number, currency = 'USD'): string {
  * Format date
  */
 export function formatDate(date: string | Date, format: 'short' | 'long' = 'short'): string {
+  if (!date) return 'N/A';
   const d = typeof date === 'string' ? new Date(date) : date;
+  if (isNaN(d.getTime())) return 'N/A';
 
   if (format === 'long') {
     return new Intl.DateTimeFormat('en-US', {

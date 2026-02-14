@@ -13,8 +13,10 @@ export const authApi = {
   // Register new user
   register: async (data: RegisterRequest): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>('/auth/register/', data);
-    if (response.access && response.refresh) {
-      setTokens(response.access, response.refresh);
+    const access = response.access || response.tokens?.access;
+    const refresh = response.refresh || response.tokens?.refresh;
+    if (access && refresh) {
+      setTokens(access, refresh);
     }
     return response;
   },
@@ -22,8 +24,11 @@ export const authApi = {
   // Login
   login: async (data: LoginRequest): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>('/auth/login/', data);
-    if (response.access && response.refresh && !response.requires_2fa) {
-      setTokens(response.access, response.refresh);
+    // Backend returns tokens nested: { tokens: { access, refresh } }
+    const access = response.access || response.tokens?.access;
+    const refresh = response.refresh || response.tokens?.refresh;
+    if (access && refresh && !response.requires_2fa) {
+      setTokens(access, refresh);
     }
     return response;
   },
@@ -46,7 +51,12 @@ export const authApi = {
 
   // Update profile
   updateProfile: async (data: Partial<User>): Promise<User> => {
-    return api.patch<User>('/auth/profile/me/', data);
+    return api.patch<User>('/auth/profile/update_profile/', data);
+  },
+
+  // Resend email verification
+  resendVerification: async (): Promise<{ message: string }> => {
+    return api.post('/auth/profile/resend_verification/');
   },
 
   // Change password

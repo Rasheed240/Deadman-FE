@@ -2,7 +2,7 @@
  * API Client for Dead Man's Bomb
  * Axios-based HTTP client with authentication and error handling
  */
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-hot-toast';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
@@ -61,32 +61,11 @@ const processQueue = (error: AxiosError | null, token: string | null = null) => 
   failedQueue = [];
 };
 
-/**
- * Parses axios error into a human-readable string
- */
-const parseError = (error: AxiosError): string => {
-  const data = error.response?.data as any;
-
-  if (data?.errors && Array.isArray(data.errors)) {
-    return data.errors[0]?.message || 'Validation error';
-  }
-
-  if (typeof data === 'string') return data;
-
-  return (
-    data?.error ||
-    data?.message ||
-    data?.detail ||
-    (error.response?.status === 404 ? 'Resource not found' : 'An unexpected error occurred')
-  );
-};
-
 apiClient.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
     const originalRequest = error.config as any;
 
-    // Handle session expiration (401)
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
@@ -132,17 +111,20 @@ apiClient.interceptors.response.use(
       }
     }
 
-    // Handle global notifications for other errors
-    const status = error.response?.status;
-    const isAuthRequest = originalRequest.url?.includes('/auth/');
+    // Handle other errors
+    if (error.response) {
+      const errorMessage =
+        error.response.data?.error ||
+        error.response.data?.message ||
+        error.response.data?.detail ||
+        'An error occurred';
 
-    if (status && status !== 401) {
-      // Don't toast for validation errors on auth pages (handled in-form)
-      if (!(status === 400 && isAuthRequest)) {
-        toast.error(parseError(error));
+      // Don't show toast for 401 errors (handled by redirect)
+      if (error.response.status !== 401) {
+        toast.error(errorMessage);
       }
-    } else if (!status && error.request) {
-      toast.error('Network connectivity issue. Please check your internet.');
+    } else if (error.request) {
+      toast.error('Network error. Please check your connection.');
     }
 
     return Promise.reject(error);
