@@ -1,25 +1,29 @@
-/**
- * Card Component
- */
 import { HTMLAttributes, forwardRef } from 'react';
+import { motion, HTMLMotionProps } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
-export interface CardProps extends HTMLAttributes<HTMLDivElement> {
+export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, keyof HTMLMotionProps<'div'>>, HTMLMotionProps<'div'> {
   variant?: 'default' | 'bordered' | 'elevated';
 }
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = 'default', ...props }, ref) => {
     const variants = {
-      default: 'bg-white rounded-lg',
-      bordered: 'bg-white border border-gray-200 rounded-lg',
-      elevated: 'bg-white rounded-lg shadow-lg',
+      default: 'bg-white dark:bg-surface-800 rounded-xl',
+      bordered:
+        'bg-white dark:bg-surface-800 border border-surface-200 dark:border-surface-700 rounded-xl',
+      elevated:
+        'bg-white dark:bg-surface-800 rounded-xl shadow-lg shadow-surface-900/5 dark:shadow-surface-950/30',
     };
 
     return (
-      <div
+      <motion.div
         ref={ref}
-        className={cn(variants[variant], className)}
+        className={cn(
+          variants[variant],
+          'transition-all duration-200',
+          className
+        )}
         {...props}
       />
     );
@@ -42,7 +46,7 @@ const CardTitle = forwardRef<
 >(({ className, ...props }, ref) => (
   <h3
     ref={ref}
-    className={cn('text-2xl font-semibold text-gray-900', className)}
+    className={cn('text-xl font-semibold text-surface-900 dark:text-surface-100', className)}
     {...props}
   />
 ));
@@ -55,7 +59,7 @@ const CardDescription = forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn('text-sm text-gray-500 mt-1', className)}
+    className={cn('text-sm text-surface-500 dark:text-surface-400 mt-1', className)}
     {...props}
   />
 ));
