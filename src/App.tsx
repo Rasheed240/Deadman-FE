@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from './store/authStore';
+import { useThemeStore } from './store/themeStore';
 
 // Layouts
 import { DashboardLayout } from './components/layout/DashboardLayout';
@@ -69,6 +70,17 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 function App() {
   const fetchUser = useAuthStore((state) => state.fetchUser);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const theme = useThemeStore((state) => state.theme);
+
+  // Initialize theme on mount
+  useEffect(() => {
+    // Apply theme class to html element
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
 
   // Fetch user on mount if authenticated
   useEffect(() => {
@@ -186,21 +198,47 @@ function App() {
         position="top-right"
         toastOptions={{
           duration: 4000,
+          className: 'toast-notification',
           style: {
-            background: '#fff',
-            color: '#111',
-            border: '1px solid #e5e7eb',
+            background: theme === 'dark' ? '#1e293b' : '#ffffff',
+            color: theme === 'dark' ? '#f1f5f9' : '#0f172a',
+            border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`,
+            borderRadius: '12px',
+            padding: '16px',
+            boxShadow: theme === 'dark'
+              ? '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2)'
+              : '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+            fontSize: '14px',
+            fontWeight: '500',
           },
           success: {
+            duration: 3000,
             iconTheme: {
               primary: '#10b981',
-              secondary: '#fff',
+              secondary: theme === 'dark' ? '#1e293b' : '#ffffff',
+            },
+            style: {
+              background: theme === 'dark' ? '#1e293b' : '#ffffff',
+              color: theme === 'dark' ? '#f1f5f9' : '#0f172a',
+              border: `1px solid ${theme === 'dark' ? '#10b981' : '#10b981'}`,
             },
           },
           error: {
+            duration: 4000,
             iconTheme: {
               primary: '#ef4444',
-              secondary: '#fff',
+              secondary: theme === 'dark' ? '#1e293b' : '#ffffff',
+            },
+            style: {
+              background: theme === 'dark' ? '#1e293b' : '#ffffff',
+              color: theme === 'dark' ? '#f1f5f9' : '#0f172a',
+              border: `1px solid ${theme === 'dark' ? '#ef4444' : '#ef4444'}`,
+            },
+          },
+          loading: {
+            iconTheme: {
+              primary: '#3b82f6',
+              secondary: theme === 'dark' ? '#1e293b' : '#ffffff',
             },
           },
         }}

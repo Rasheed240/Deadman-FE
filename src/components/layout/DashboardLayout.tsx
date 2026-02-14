@@ -35,17 +35,6 @@ const navigation = [
   { name: 'Settings', href: '/settings', icon: Settings },
 ];
 
-const navVariants = {
-  hidden: { opacity: 0, x: -10 },
-  show: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    transition: {
-      delay: i * 0.05,
-    },
-  }),
-};
-
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const location = useLocation();
   const navigate = useNavigate();
@@ -106,33 +95,26 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
           {/* Navigation */}
           <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
-            {navigation.map((item, i) => {
+            {navigation.map((item) => {
               const isActive = location.pathname.startsWith(item.href);
               const Icon = item.icon;
 
               return (
-                <motion.div
+                <Link
                   key={item.name}
-                  custom={i}
-                  initial="hidden"
-                  animate="show"
-                  variants={navVariants}
+                  to={item.href}
+                  onClick={() => setSidebarOpen(false)}
+                  className={`group relative flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 ${isActive
+                      ? 'bg-primary-600 text-white shadow-lg shadow-primary-600/25'
+                      : 'text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-800 hover:text-surface-900 dark:hover:text-surface-200'
+                    }`}
                 >
-                  <Link
-                    to={item.href}
-                    onClick={() => setSidebarOpen(false)}
-                    className={`group relative flex items-center px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 ${isActive
-                        ? 'bg-primary-600 text-white shadow-lg shadow-primary-600/25'
-                        : 'text-surface-600 dark:text-surface-400 hover:bg-surface-100 dark:hover:bg-surface-800 hover:text-surface-900 dark:hover:text-surface-200'
-                      }`}
-                  >
-                    <Icon className={`h-5 w-5 mr-3 transition-transform duration-200 ${!isActive ? 'group-hover:scale-110' : ''}`} />
-                    {item.name}
-                    {isActive && (
-                      <ChevronRight className="h-4 w-4 ml-auto" />
-                    )}
-                  </Link>
-                </motion.div>
+                  <Icon className={`h-5 w-5 mr-3 transition-transform duration-200 ${!isActive ? 'group-hover:scale-110' : ''}`} />
+                  {item.name}
+                  {isActive && (
+                    <ChevronRight className="h-4 w-4 ml-auto" />
+                  )}
+                </Link>
               );
             })}
           </nav>
