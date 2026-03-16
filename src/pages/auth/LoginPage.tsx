@@ -9,8 +9,6 @@ import { Button, Input } from '@/components/ui';
 import { useAuthStore } from '@/store/authStore';
 import { useThemeStore } from '@/store/themeStore';
 import {
-  Lock,
-  Mail,
   Shield,
   MessageSquare,
   HeartPulse,

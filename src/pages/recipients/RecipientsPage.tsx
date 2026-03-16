@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { recipientsApi } from '@/lib/api';
 import {
-  Card, CardContent, Button, Badge, Modal, ModalFooter, Input,
+  Card, CardContent, Button, Badge, Modal, ModalFooter,
 } from '@/components/ui';
 import { Plus, Users, Mail, MessageSquare, Phone, Upload } from 'lucide-react';
 import { formatRelativeTime } from '@/lib/utils';

@@ -2,7 +2,7 @@
  * Profile Settings Component
  */
 import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import { motion } from 'framer-motion';
 import { authApi } from '@/lib/api';
@@ -17,7 +17,7 @@ import {
   Input,
   Badge,
 } from '@/components/ui';
-import { User, Mail, Phone, Calendar, Crown, Save } from 'lucide-react';
+import { Mail, Crown, Save } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 
 const containerVariants = {
@@ -37,13 +37,12 @@ const cardVariants = {
     y: 0,
     transition: {
       duration: 0.4,
-      ease: 'easeOut',
+      ease: 'easeOut' as any,
     },
   },
 };
 
 export function ProfileSettings() {
-  const queryClient = useQueryClient();
   const user = useAuthStore((state) => state.user);
   const fetchUser = useAuthStore((state) => state.fetchUser);
 

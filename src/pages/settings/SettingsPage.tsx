@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui';
-import { User, Shield, Smartphone, Monitor, Download, Trash2 } from 'lucide-react';
+import { User, Shield, Smartphone, Monitor, Download } from 'lucide-react';
 import { ProfileSettings } from './ProfileSettings';
 import { SecuritySettings } from './SecuritySettings';
 import { TwoFactorSettings } from './TwoFactorSettings';
@@ -31,7 +31,7 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as any,
     },
   },
 };

@@ -6,7 +6,7 @@ import { checkinsApi } from '@/lib/api';
 import {
   Card, CardHeader, CardTitle, CardDescription, CardContent, Button, Badge, Modal, ModalFooter, Input,
 } from '@/components/ui';
-import { Heart, CheckCircle, AlertCircle, Clock, Pause, Play, Users as UsersIcon } from 'lucide-react';
+import { CheckCircle, AlertCircle, Clock, Pause, Play, Users as UsersIcon } from 'lucide-react';
 import { formatDate, formatRelativeTime } from '@/lib/utils';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };

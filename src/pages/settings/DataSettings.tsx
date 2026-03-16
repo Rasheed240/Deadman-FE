@@ -95,7 +95,7 @@ export function DataSettings() {
         delay: i * 0.1,
         duration: 0.4,
         ease: 'easeOut',
-      },
+      } as any,
     }),
   };
 

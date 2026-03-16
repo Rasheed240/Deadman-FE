@@ -75,7 +75,7 @@ export function RegisterPage() {
     },
   });
 
-  const handleAccountTypeChange = (type: AccountType) => {
+  const handleAccountTypeChange = (type: 'verified' | 'anonymous') => {
     setAccountType(type);
     setValue('account_type', type);
   };

@@ -2,10 +2,14 @@
  * API Client for Dead Man's Bomb
  * Axios-based HTTP client with authentication and error handling
  */
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { toast } from 'react-hot-toast';
+import { ApiError } from '@/types';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+// @ts-ignore - import.meta.env is handled by Vite
+const API_BASE_URL = (import.meta as any).env?.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+
+// ... (rest of the code update involves casting error.response.data to ApiError)
 
 // Create axios instance
 export const apiClient = axios.create({
@@ -113,10 +117,11 @@ apiClient.interceptors.response.use(
 
     // Handle other errors
     if (error.response) {
+      const errorData = error.response.data as ApiError;
       const errorMessage =
-        error.response.data?.error ||
-        error.response.data?.message ||
-        error.response.data?.detail ||
+        errorData?.error ||
+        errorData?.message ||
+        errorData?.detail ||
         'An error occurred';
 
       // Don't show toast for 401 errors (handled by redirect)

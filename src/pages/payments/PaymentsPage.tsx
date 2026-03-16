@@ -4,8 +4,8 @@ import { paymentsApi } from '@/lib/api';
 import {
   Card, CardHeader, CardTitle, CardDescription, CardContent, Button, Badge,
 } from '@/components/ui';
-import { CreditCard, Download, RefreshCw, CheckCircle, XCircle, Clock } from 'lucide-react';
-import { formatCurrency, formatDate, formatRelativeTime } from '@/lib/utils';
+import { CreditCard, Download, RefreshCw } from 'lucide-react';
+import { formatCurrency, formatDate } from '@/lib/utils';
 import type { Payment } from '@/types';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } };

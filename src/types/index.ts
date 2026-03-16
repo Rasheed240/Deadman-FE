@@ -23,7 +23,18 @@ export interface User {
   email_verified_at?: string;
   is_2fa_enabled: boolean;
   totp_enabled: boolean;
+  last_login?: string;
   date_joined: string;
+}
+
+export interface UserSession {
+  id: string;
+  ip_address: string;
+  user_agent: string;
+  location?: string;
+  is_current: boolean;
+  last_active: string;
+  created_at: string;
 }
 
 export interface LoginRequest {
@@ -46,6 +57,10 @@ export interface AuthResponse {
   refresh: string;
   user: User;
   requires_2fa?: boolean;
+  tokens?: {
+    access: string;
+    refresh: string;
+  };
 }
 
 // ============================================================================
