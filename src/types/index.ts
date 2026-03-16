@@ -22,6 +22,7 @@ export interface User {
   email_verified: boolean;
   email_verified_at?: string;
   is_2fa_enabled: boolean;
+  totp_enabled: boolean;
   date_joined: string;
 }
 
