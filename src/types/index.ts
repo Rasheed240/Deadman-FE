@@ -31,9 +31,14 @@ export interface UserSession {
   id: string;
   ip_address: string;
   user_agent: string;
-  location?: string;
+  device_type: string;
+  device_name: string;
+  browser: string;
+  os: string;
+  city?: string;
+  country?: string;
   is_current: boolean;
-  last_active: string;
+  last_activity: string;
   created_at: string;
 }
 
